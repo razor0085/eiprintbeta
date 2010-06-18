@@ -236,9 +236,9 @@ public class Objektfile_einlesen extends Util {
         DPOD.y0 = y;
         DPOD.z0 = z;
         OK = DPOD.delta_calcInverse(DPOD);
-        stepsMotor1 = (int) ((DPOD.theta1) / 0.9);
-        stepsMotor2 = (int) ((DPOD.theta2) / 0.9);
-        stepsMotor3 = (int) ((DPOD.theta3) / 0.9);
+        stepsMotor1 = (int) ((DPOD.theta1) / (0.9*22/120));
+        stepsMotor2 = (int) ((DPOD.theta2) / (0.9*22/120));
+        stepsMotor3 = (int) ((DPOD.theta3) / (0.9*22/120));
         oldStepMotor1 = stepsMotor1;
         oldStepMotor2 = stepsMotor2;
         oldStepMotor3 = stepsMotor3;
@@ -268,9 +268,9 @@ public class Objektfile_einlesen extends Util {
         DPOD.z0 = z;
         OK = DPOD.delta_calcInverse(DPOD);
         //Schrittberechnung ausgehend von Nullposition
-        stepsMotor1 = (int) ((DPOD.theta1) / 0.9);
-        stepsMotor2 = (int) ((DPOD.theta2) / 0.9);
-        stepsMotor3 = (int) ((DPOD.theta3) / 0.9);
+        stepsMotor1 = (int) ((DPOD.theta1) / (0.9*22/120));
+        stepsMotor2 = (int) ((DPOD.theta2) / (0.9*22/120));
+        stepsMotor3 = (int) ((DPOD.theta3) / (0.9*22/120));
         oldStepMotor1 = oldStepMotor1- stepsMotor1;
         oldStepMotor2 = oldStepMotor2- stepsMotor2;
         oldStepMotor3 = oldStepMotor3-stepsMotor3;
@@ -497,8 +497,8 @@ public class Objektfile_einlesen extends Util {
 //            System.out.println( o.getOrigin().get(0));
             //o.getOrigin().get(0).getX();
            // o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
-            o.fileEinlesen();
-            o.saveToDb();
+            //o.fileEinlesen();
+            //o.saveToDb();
             o.sujetEinlesen();
            System.out.println(o.getOrigin().size());
            System.out.println( o.getOrigin().get(0));
