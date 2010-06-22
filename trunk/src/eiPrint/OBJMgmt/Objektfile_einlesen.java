@@ -29,7 +29,7 @@ public class Objektfile_einlesen extends Util {
 
     //Attribute
     private ObjectContainer db;
-    //private Koordinatentransformation kt;
+    //private Koordinatentransformation kt;//nur wenn Vererbung eingesetzt
     private String pfad;
     private String filename;
     private FileReader fileIn;
@@ -61,7 +61,7 @@ public class Objektfile_einlesen extends Util {
      */
     @SuppressWarnings("empty-statement")
     public Objektfile_einlesen(String pfad,String sujet) {
-        db = Db4oEmbedded.openFile(createConfiguration(), "C:/NetBeansProjekte/HilfedateiPrint/DB.yap");
+        db = Db4oEmbedded.openFile(createConfiguration(), "C:/Users/david/Documents/NetBeansProjects/PRENbeta/DB.yap");
         DPOD = new Kinematik();
         point = new Point();
         ptmenge = new ArrayList<Point>();
@@ -169,7 +169,7 @@ public class Objektfile_einlesen extends Util {
      * @return
      */
     public List<Point> getOrigin() {
-        
+
         List<Point> result = db.query(new Predicate<Point>() {
 
             public boolean match(Point point) {
@@ -231,14 +231,17 @@ public class Objektfile_einlesen extends Util {
     {
         int stepsMotor1, stepsMotor2, stepsMotor3;
         int write = 1 ;
+       // double ubersetzVerh = (22.0/150.0);
+        double ubersVerhaltTot = (0.9/(5.4545));
         //Dpod erwarted floats
         DPOD.x0 = x;
         DPOD.y0 = y;
         DPOD.z0 = z;
         OK = DPOD.delta_calcInverse(DPOD);
-        stepsMotor1 = (int) ((DPOD.theta1) / (0.9*22/120));
-        stepsMotor2 = (int) ((DPOD.theta2) / (0.9*22/120));
-        stepsMotor3 = (int) ((DPOD.theta3) / (0.9*22/120));
+        //Schrittberechnung ausgehend von Nullposition
+        stepsMotor1 =  (int) (((DPOD.theta1) / ubersVerhaltTot) );
+        stepsMotor2 =  (int) (((DPOD.theta2) / ubersVerhaltTot) );
+        stepsMotor3 =  (int) (((DPOD.theta3) / ubersVerhaltTot) );
         oldStepMotor1 = stepsMotor1;
         oldStepMotor2 = stepsMotor2;
         oldStepMotor3 = stepsMotor3;
@@ -262,15 +265,17 @@ public class Objektfile_einlesen extends Util {
     public void getSteps(double x, double y, double z,int color) {
         int stepsMotor1, stepsMotor2, stepsMotor3;
         int write = 1 ;
+        //double ubersetzVerh = (22.0/150.0);
+        double ubersVerhaltTot = (0.9/(5.4545));
         //Dpod erwarted floats
         DPOD.x0 = x;
         DPOD.y0 = y;
         DPOD.z0 = z;
         OK = DPOD.delta_calcInverse(DPOD);
         //Schrittberechnung ausgehend von Nullposition
-        stepsMotor1 = (int) ((DPOD.theta1) / (0.9*22/120));
-        stepsMotor2 = (int) ((DPOD.theta2) / (0.9*22/120));
-        stepsMotor3 = (int) ((DPOD.theta3) / (0.9*22/120));
+        stepsMotor1 =  (int) (((DPOD.theta1) / ubersVerhaltTot) );
+        stepsMotor2 =  (int) (((DPOD.theta2) / ubersVerhaltTot) );
+        stepsMotor3 =  (int) (((DPOD.theta3) / ubersVerhaltTot) );
         oldStepMotor1 = oldStepMotor1- stepsMotor1;
         oldStepMotor2 = oldStepMotor2- stepsMotor2;
         oldStepMotor3 = oldStepMotor3-stepsMotor3;
@@ -366,7 +371,7 @@ public class Objektfile_einlesen extends Util {
     }
 
 
-    
+
      public void generiereDruckdaten(double xStart,double yStart, double zStart)
     {
 //        double xStart = 0.0;
@@ -394,6 +399,32 @@ public class Objektfile_einlesen extends Util {
              zStart = zStart+(pt.getZ());
         }
     }
+
+     public void verticalDown()
+     {
+         int oldStepMotor1 = 464;
+        steps.add(oldStepMotor1);
+        steps.add(oldStepMotor1);
+        steps.add(oldStepMotor1);
+        steps.add(1);
+        steps.add(1);
+        System.out.println(oldStepMotor1);
+        System.out.println(oldStepMotor2);
+        System.out.println(oldStepMotor3);
+     }
+
+     public void motor1()
+     {
+          int oldStepMotor1 = 50;
+        steps.add(oldStepMotor1);
+        steps.add(0);
+        steps.add(0);
+        steps.add(1);
+        steps.add(1);
+        System.out.println(oldStepMotor1);
+        System.out.println(oldStepMotor2);
+        System.out.println(oldStepMotor3);
+     }
 
     /**
      *  simple Methode um zu überprüfen wie ArrayLists abgefüllt wurden
@@ -471,7 +502,7 @@ public class Objektfile_einlesen extends Util {
         //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt
       // DateiUmbenennen rename = new DateiUmbenennen();
        //rename.RenameFile("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/");//Pfad ohne dateiname
-      
+
      // try {
 //            o.fileEinlesen();
 //            o.saveToDb();
@@ -493,16 +524,23 @@ public class Objektfile_einlesen extends Util {
 //        }
        //Druckbefehle_aufbereitung d = new Druckbefehle_aufbereitung("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt");
         try {
-            Objektfile_einlesen o = new Objektfile_einlesen("C:/NetBeansProjekte/SujetundObjekt/BallonMaxV1.txt","C:/NetBeansProjekte/SujetundObjekt/sujet.txt");
+            //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data
+            Objektfile_einlesen o = new Objektfile_einlesen("C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/BallonMaxV1.txt","C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/sujet.txt");
 //            System.out.println( o.getOrigin().get(0));
             //o.getOrigin().get(0).getX();
            // o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
-            //o.fileEinlesen();
-            //o.saveToDb();
+            //output 213 213 213
+            //o.getSteps(-0.014922630119031055 ,0.3060949999999991, -177.97422619470058,1);
+            //output was -117 -15 -15
+
+            o.fileEinlesen();
+           o.saveToDb();
             o.sujetEinlesen();
+
            System.out.println(o.getOrigin().size());
            System.out.println( o.getOrigin().get(0));
            System.out.println(o.getOrigin().get(0).getX());
+             o.getSteps(-0.149 ,-9.36, -274.974,1);
             o.generiereDruckdaten(o.getOrigin().get(0).getX(), o.getOrigin().get(0).getY(), o.getOrigin().get(0).getZ());
             o.printArrayLists();
         }catch (Exception e){
