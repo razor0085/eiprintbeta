@@ -61,7 +61,9 @@ public class Objektfile_einlesen extends Util {
      */
     @SuppressWarnings("empty-statement")
     public Objektfile_einlesen(String pfad,String sujet) {
-        db = Db4oEmbedded.openFile(createConfiguration(), "C:/Users/david/Documents/NetBeansProjects/PRENbeta/DB.yap");
+        db = Db4oEmbedded.openFile(createConfiguration(), "C:/NetBeansProjekte/HilfedateiPrint/DB.yap");
+
+// Pfad von David        db = Db4oEmbedded.openFile(createConfiguration(), "C:/Users/david/Documents/NetBeansProjects/PRENbeta/DB.yap");
         DPOD = new Kinematik();
         point = new Point();
         ptmenge = new ArrayList<Point>();
@@ -525,8 +527,9 @@ public class Objektfile_einlesen extends Util {
        //Druckbefehle_aufbereitung d = new Druckbefehle_aufbereitung("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt");
         try {
             //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data
-            Objektfile_einlesen o = new Objektfile_einlesen("C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/BallonMaxV1.txt","C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/sujet.txt");
-//            System.out.println( o.getOrigin().get(0));
+// Pfad David            Objektfile_einlesen o = new Objektfile_einlesen("C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/BallonMaxV1.txt","C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/sujet.txt");
+Objektfile_einlesen o = new Objektfile_einlesen("C:/NetBeansProjekte/SujetundObjekt/BallonMaxV1.txt","C:/NetBeansProjekte/SujetundObjekt/sujet.txt");
+            //            System.out.println( o.getOrigin().get(0));
             //o.getOrigin().get(0).getX();
            // o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
             //output 213 213 213
