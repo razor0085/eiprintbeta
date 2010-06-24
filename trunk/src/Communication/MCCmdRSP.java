@@ -121,6 +121,7 @@ public class MCCmdRSP implements SerialPortEventListener {
             } catch (InterruptedException ex) {
                 Logger.getLogger(MCCmdRSP.class.getName()).log(Level.SEVERE, null, ex);
             }
+    
        }
 
 
@@ -162,11 +163,12 @@ public class MCCmdRSP implements SerialPortEventListener {
        for(int i = 0;i<printArray.length;i++){
 
            print();
+           result = 0;
 
            for(int j = 0;j<5;j++){
                 try {
                     outputStream.write(printArray[i][j]);
-                    System.out.println("Writing " + printArray[i][j] + " to " + serialPort.getName());
+                    System.out.println("Parameter Nr. "+j+"::"+"Writing " + printArray[i][j] + " to " + serialPort.getName());
                     } catch (IOException e) {
                         System.out.println(e);
                     }
