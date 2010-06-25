@@ -173,12 +173,12 @@ public class Objektfile_einlesen extends Util {
     public List<Point> getOrigin() {
 
         List<Point> result = db.query(new Predicate<Point>() {
-
+        double tol = 0.6;
             public boolean match(Point point) {
-                return (point.getX() < (0 + 0.5) &&
-                        point.getX() > (0 - 0.5) &&
-                        point.getY() < (0 + 0.5) &&
-                        point.getY() > (0 - 0.5));
+                return (point.getX() < (0 + tol) &&
+                        point.getX() > (0 - tol) &&
+                        point.getY() < (0 + tol) &&
+                        point.getY() > (0 - tol));
             }
         });
         return result;
@@ -536,14 +536,14 @@ Objektfile_einlesen o = new Objektfile_einlesen("C:/NetBeansProjekte/SujetundObj
             //o.getSteps(-0.014922630119031055 ,0.3060949999999991, -177.97422619470058,1);
             //output was -117 -15 -15
 
-            o.fileEinlesen();
-           o.saveToDb();
+//            o.fileEinlesen();
+//           o.saveToDb();
             o.sujetEinlesen();
 
            System.out.println(o.getOrigin().size());
            System.out.println( o.getOrigin().get(0));
            System.out.println(o.getOrigin().get(0).getX());
-             o.getSteps(-0.149 ,-9.36, -274.974,1);
+            // o.getSteps(-0.149 ,-9.36, -274.974,1);
             o.generiereDruckdaten(o.getOrigin().get(0).getX(), o.getOrigin().get(0).getY(), o.getOrigin().get(0).getZ());
             o.printArrayLists();
         }catch (Exception e){
