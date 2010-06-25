@@ -39,6 +39,7 @@ public class MCCmdRSP implements SerialPortEventListener {
     static final int CMD_NEUTRAL = 40;
     static final int CMD_STARTLASER = 30;
     static final int CMD_PRINT = 60;
+    static final  int numberofsteps = 20;
 
    public void startLaser() throws IOException  {
 
@@ -113,7 +114,7 @@ public class MCCmdRSP implements SerialPortEventListener {
 
        int retries = 0;
 
-       while (result != (command+1) && retries < 30){
+       while (result != (command+1) && retries < 100){
             try {
                 //timeout
                 Thread.sleep(100);
@@ -160,10 +161,13 @@ public class MCCmdRSP implements SerialPortEventListener {
 
    public void writetoport(byte[][] printArray) throws IOException {
 
-       for(int i = 0;i<printArray.length;i++){
+      int  multistep = 0;
 
-           print();
-           result = 0;
+
+      result = 0;
+       print();
+
+       for(int i = 0;i<printArray.length;i++){       
 
            for(int j = 0;j<5;j++){
                 try {
@@ -175,13 +179,27 @@ public class MCCmdRSP implements SerialPortEventListener {
                     
            }
            System.out.println("i:" + i + "-----------------------------------");
-           if ( !readACK(CMD_PRINT) )
-           {
-                //System.out.println("no ACK(61) from MC");
-                //i--;
-                break;
+       
+           multistep++;
+
+           if (multistep == numberofsteps){
+
+               if ( !readACK(CMD_PRINT) )
+                {
+                    //System.out.println("no ACK(61) from MC");
+                    //i--;
+                    break;
+                }
+           multistep = 0;
+           result = 0;
+                if (i != (printArray.length-1)){
+                     print();
+                }
            }
        }
+
+
+   
    }
 
 
@@ -193,7 +211,7 @@ public class MCCmdRSP implements SerialPortEventListener {
       String osname = System.getProperty("os.name","").toLowerCase();
       if ( osname.startsWith("windows") ) {
          // windows
-         defaultPort = "COM1";
+         defaultPort = "COM3";
       } else if (osname.startsWith("linux")) {
          // linux
         defaultPort = "/dev/ttyS0";
@@ -255,8 +273,8 @@ public class MCCmdRSP implements SerialPortEventListener {
       try {
          // set port parameters
 
-          //serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8,
-          serialPort.setSerialPortParams(62500, SerialPort.DATABITS_8,
+          serialPort.setSerialPortParams(38400, SerialPort.DATABITS_8,
+         // serialPort.setSerialPortParams(62500, SerialPort.DATABITS_8,
           SerialPort.STOPBITS_1,
                      SerialPort.PARITY_NONE);
       } catch (UnsupportedCommOperationException e) {}

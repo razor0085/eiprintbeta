@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  */
 public class Parsedata {
 
+    int modulorest = 0;
+    int newsize = 0;
+
     public byte[][] printArray;
 
     public Parsedata() {
@@ -36,7 +39,16 @@ public class Parsedata {
 
             size += Math.max(m3, Math.max(m1, m2));
         }
-        printArray = new byte[size][5];
+
+      modulorest = (size % MCCmdRSP.numberofsteps);
+
+      if (modulorest!= 0){
+          newsize = size + (MCCmdRSP.numberofsteps - modulorest);
+      }else{
+          newsize = size;
+      }
+
+        printArray = new byte[newsize][5];
         int offset = 0;
 
         for (int x = 0; x < alist.size(); x += 5) {
@@ -245,7 +257,13 @@ public class Parsedata {
 
             offset += linesize;
         }
-//        System.out.println("ArrayFertig ");
+        //Ausgabe Array
+        for (int i = 0; i < printArray.length; i++) {
+            for (int j = 0; j < printArray[i].length; j++) {
+                System.out.print(printArray[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
@@ -282,13 +300,7 @@ public class Parsedata {
 //    alist.add(1);
 
         PData.parsedata(alist);
-        //Ausgabe Array
-//        for (int i = 0; i < PData.printArray.length; i++) {
-//            for (int j = 0; j < PData.printArray[i].length; j++) {
-//                System.out.print(PData.printArray[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
+
 
 
 
