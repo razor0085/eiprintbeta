@@ -61,7 +61,7 @@ public class Objektfile_einlesen extends Util {
      */
     @SuppressWarnings("empty-statement")
     public Objektfile_einlesen(String pfad,String sujet) {
-        db = Db4oEmbedded.openFile(createConfiguration(), "C:/NetBeansProjekte/HilfedateiPrint/DB.yap");
+        db = Db4oEmbedded.openFile(createConfiguration(), "C:/PREN/DB.yap");
 
 // Pfad von David        db = Db4oEmbedded.openFile(createConfiguration(), "C:/Users/david/Documents/NetBeansProjects/PRENbeta/DB.yap");
         DPOD = new Kinematik();
@@ -173,7 +173,7 @@ public class Objektfile_einlesen extends Util {
     public List<Point> getOrigin() {
 
         List<Point> result = db.query(new Predicate<Point>() {
-        double tol = 0.6;
+        double tol = 0.8;
             public boolean match(Point point) {
                 return (point.getX() < (0 + tol) &&
                         point.getX() > (0 - tol) &&
@@ -381,7 +381,7 @@ public class Objektfile_einlesen extends Util {
 //        double zStart = 0.0;
         double zTemp = 0.0;
         Point pt = null;
-        pt = getZkoordinate(xStart + Xsujet.get(0), yStart + Xsujet.get(0)).get(0);
+        pt = getZkoordinate(xStart + Xsujet.get(0), yStart + Ysujet.get(0)).get(0);
         zTemp = pt.getZ();
         //für das Anfahren der Startposition
         getStepsInitailposition((xStart+Xsujet.get(0)), (yStart+Ysujet.get(0)),(zStart+zTemp),1);
@@ -393,7 +393,7 @@ public class Objektfile_einlesen extends Util {
         for(int i=1; i<Xsujet.size()-1;i++)
         {
             //zugehörige z-Koordinate auf bedruckbares Objekt finden
-             pt = getZkoordinate(xStart+Xsujet.get(i), yStart+Xsujet.get(i)).get(0);
+             pt = getZkoordinate(xStart+Xsujet.get(i), yStart+Ysujet.get(i)).get(0);
              zTemp = pt.getZ();
              getSteps((xStart+Xsujet.get(i)), (yStart+Ysujet.get(i)),(zStart+zTemp),1);
              xStart = xStart+Xsujet.get(i);
@@ -505,10 +505,10 @@ public class Objektfile_einlesen extends Util {
       // DateiUmbenennen rename = new DateiUmbenennen();
        //rename.RenameFile("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/");//Pfad ohne dateiname
 
-     // try {
+//      try {
 //            o.fileEinlesen();
 //            o.saveToDb();
-           // Startpunkt suchen
+//           // Startpunkt suchen
            //System.out.println( o.getOrigin().get(0));
            //Point: 0.0034228569986112234 0.001378 291.4954994853929
 
@@ -528,7 +528,7 @@ public class Objektfile_einlesen extends Util {
         try {
             //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data
 // Pfad David            Objektfile_einlesen o = new Objektfile_einlesen("C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/BallonMaxV1.txt","C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/sujet.txt");
-Objektfile_einlesen o = new Objektfile_einlesen("C:/NetBeansProjekte/SujetundObjekt/BallonMaxV1.txt","C:/NetBeansProjekte/SujetundObjekt/sujet.txt");
+Objektfile_einlesen o = new Objektfile_einlesen("C:/PREN/asdf.txt","C:/PREN/sujet.txt");
             //            System.out.println( o.getOrigin().get(0));
             //o.getOrigin().get(0).getX();
            // o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
@@ -536,8 +536,8 @@ Objektfile_einlesen o = new Objektfile_einlesen("C:/NetBeansProjekte/SujetundObj
             //o.getSteps(-0.014922630119031055 ,0.3060949999999991, -177.97422619470058,1);
             //output was -117 -15 -15
 
-//            o.fileEinlesen();
-//           o.saveToDb();
+            o.fileEinlesen();
+           o.saveToDb();
             o.sujetEinlesen();
 
            System.out.println(o.getOrigin().size());

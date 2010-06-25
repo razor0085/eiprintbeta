@@ -636,7 +636,8 @@ public class eiPrintManager extends javax.swing.JFrame {
     private void PfadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PfadActionPerformed
         // TODO add your handling here:
 
-        String path = "D:\\HTA\\PREN\\Subversion\\eiPrint\\src\\eiPrint";
+//        String path = "D:\\HTA\\PREN\\Subversion\\eiPrint\\src\\eiPrint";
+        String path = "C:\\Users\\Optimus Prime\\Documents\\NetBeansProjects\\src\\eiPrint";
 
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Please select Log Path");
