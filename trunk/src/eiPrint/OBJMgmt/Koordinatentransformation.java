@@ -20,10 +20,10 @@ public class Koordinatentransformation
     private double yrobot;
     private double zrobot;
     private static final double WINKEL = -(45.0D);
-    // höhe von Nullpos entsprichte tz höhe des Stifts(MaschinenNullpunkt) in mm
-    private static final double tz = 600.0D;
+    // höhe von Nullpos entspricht tz höhe des Stifts(MaschinenNullpunkt) in mm
+    private static final double tz = 640.0D;
     //Ansicht von Vorne Laser auf meiner Seite, 70/2
-    private static final double ty = 14.0D; //entspricht ty in mm
+    private static final double ty = 16.0D; //entspricht ty in mm
 
 
     public Koordinatentransformation()
