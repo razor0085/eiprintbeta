@@ -173,7 +173,7 @@ public class Objektfile_einlesen extends Util {
     public List<Point> getOrigin() {
 
         List<Point> result = db.query(new Predicate<Point>() {
-        double tol = 0.8;
+        double tol = 15.0;
             public boolean match(Point point) {
                 return (point.getX() < (0 + tol) &&
                         point.getX() > (0 - tol) &&
