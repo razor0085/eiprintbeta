@@ -204,12 +204,12 @@ public class Objektfile_einlesen extends Util {
         this.xGes = xGes;
         this.yGes = yGes;
         List<Point> result = db.query(new Predicate<Point>() {
-
+            double tol= 0.2;
             public boolean match(Point point) {
-                return (point.getX() < (Objektfile_einlesen.this.xGes + 0.2) &&
-                        point.getX() > (Objektfile_einlesen.this.xGes - 0.2) &&
-                        point.getY() < (Objektfile_einlesen.this.yGes + 0.2) &&
-                        point.getY() > (Objektfile_einlesen.this.yGes - 0.2));
+                return (point.getX() < (Objektfile_einlesen.this.xGes + tol) &&
+                        point.getX() > (Objektfile_einlesen.this.xGes - tol) &&
+                        point.getY() < (Objektfile_einlesen.this.yGes + tol) &&
+                        point.getY() > (Objektfile_einlesen.this.yGes - tol));
             }
         });
         if(result.size() <= 0){
@@ -229,10 +229,10 @@ public class Objektfile_einlesen extends Util {
      * @param y
      * @param z
      */
-    public void getStepsInitailposition(double x, double y, double z,int color)
+    public void getStepsInitailposition(double x, double y, double z,int color, int write)
     {
         int stepsMotor1, stepsMotor2, stepsMotor3;
-        int write = 1 ;
+        //int write = 1 ;
        // double ubersetzVerh = (22.0/150.0);
         double ubersVerhaltTot = (0.9/(5.4545));
         //Dpod erwarted floats
@@ -264,9 +264,9 @@ public class Objektfile_einlesen extends Util {
      * @param y
      * @param z
      */
-    public void getSteps(double x, double y, double z,int color) {
+    public void getSteps(double x, double y, double z,int color,int write) {
         int stepsMotor1, stepsMotor2, stepsMotor3;
-        int write = 1 ;
+        //int write = 1
         //double ubersetzVerh = (22.0/150.0);
         double ubersVerhaltTot = (0.9/(5.4545));
         //Dpod erwarted floats
@@ -278,9 +278,12 @@ public class Objektfile_einlesen extends Util {
         stepsMotor1 =  (int) (((DPOD.theta1) / ubersVerhaltTot) );
         stepsMotor2 =  (int) (((DPOD.theta2) / ubersVerhaltTot) );
         stepsMotor3 =  (int) (((DPOD.theta3) / ubersVerhaltTot) );
-        oldStepMotor1 = oldStepMotor1- stepsMotor1;
-        oldStepMotor2 = oldStepMotor2- stepsMotor2;
-        oldStepMotor3 = oldStepMotor3-stepsMotor3;
+        if(((stepsMotor1<= 50)) && (stepsMotor2<= 50) && (stepsMotor3 <= 50)){
+            oldStepMotor1 = oldStepMotor1 - stepsMotor1;
+            oldStepMotor2 = oldStepMotor2 - stepsMotor2;
+            oldStepMotor3 = oldStepMotor3 - stepsMotor3;
+        }else {}
+
         steps.add(oldStepMotor1);
         steps.add(oldStepMotor2);
         steps.add(oldStepMotor3);
@@ -379,26 +382,26 @@ public class Objektfile_einlesen extends Util {
 //        double xStart = 0.0;
 //        double yStart = 0.0;
 //        double zStart = 0.0;
-        double zTemp = 0.0;
+               double zTemp = 0.0;
         Point pt = null;
         pt = getZkoordinate(xStart + Xsujet.get(0), yStart + Ysujet.get(0)).get(0);
         zTemp = pt.getZ();
         //für das Anfahren der Startposition
-        getStepsInitailposition((xStart+Xsujet.get(0)), (yStart+Ysujet.get(0)),(zStart+zTemp),1);
+        getStepsInitailposition((xStart+Xsujet.get(0)), (yStart+Ysujet.get(0)),(zStart+zTemp),colorPrint.get(0),write.get(0));
         xStart = xStart + Xsujet.get(0);
         yStart = yStart + Ysujet.get(0);
-        zStart = zStart + (pt.getZ());
+        zStart = zStart + (zTemp);
 
         //für die restlichen Punkte des Sujet
-        for(int i=1; i<Xsujet.size()-1;i++)
+        for(int i=1; i<Xsujet.size();i++)
         {
             //zugehörige z-Koordinate auf bedruckbares Objekt finden
              pt = getZkoordinate(xStart+Xsujet.get(i), yStart+Ysujet.get(i)).get(0);
              zTemp = pt.getZ();
-             getSteps((xStart+Xsujet.get(i)), (yStart+Ysujet.get(i)),(zStart+zTemp),1);
+             getSteps((xStart+Xsujet.get(i)), (yStart+Ysujet.get(i)),(zStart+zTemp),colorPrint.get(i),write.get(i));
              xStart = xStart+Xsujet.get(i);
              yStart = yStart+Ysujet.get(i);
-             zStart = zStart+(pt.getZ());
+             zStart = zStart+(zTemp);
         }
     }
 
@@ -504,37 +507,11 @@ public class Objektfile_einlesen extends Util {
         //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt
       // DateiUmbenennen rename = new DateiUmbenennen();
        //rename.RenameFile("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/");//Pfad ohne dateiname
-
-//      try {
-//            o.fileEinlesen();
-//            o.saveToDb();
-//           // Startpunkt suchen
-           //System.out.println( o.getOrigin().get(0));
-           //Point: 0.0034228569986112234 0.001378 291.4954994853929
-
-            //Startpunkt übergeben
-             //List<Point> lst = o.getZkoordinate(-182.9859, 0.2033183);
-            //System.out.println(lst.size());
-            //System.out.println(lst.get(0).getZ());
-            //Umrechnung in Schritte
-            //Kinematik DPOD = new Kinematik();
-           //  o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//        }
-       //Druckbefehle_aufbereitung d = new Druckbefehle_aufbereitung("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt");
+  //Druckbefehle_aufbereitung d = new Druckbefehle_aufbereitung("C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data/sujet.txt");
         try {
             //C:/Users/david/Desktop/PREN/eiPrint/src/eiPrint/OBJMgmt/data
 // Pfad David            Objektfile_einlesen o = new Objektfile_einlesen("C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/BallonMaxV1.txt","C:/Users/david/Documents/NetBeansProjects/PRENbeta/trunk/src/eiPrint/OBJMgmt/data/sujet.txt");
 Objektfile_einlesen o = new Objektfile_einlesen("C:/PREN/asdf.txt","C:/PREN/sujet.txt");
-            //            System.out.println( o.getOrigin().get(0));
-            //o.getOrigin().get(0).getX();
-           // o.getSteps(0.0034228569986112234, 0.001378, 291.4954994853929,1);
-            //output 213 213 213
-            //o.getSteps(-0.014922630119031055 ,0.3060949999999991, -177.97422619470058,1);
-            //output was -117 -15 -15
 
             o.fileEinlesen();
            o.saveToDb();
@@ -553,3 +530,4 @@ Objektfile_einlesen o = new Objektfile_einlesen("C:/PREN/asdf.txt","C:/PREN/suje
     }
 
 }
+
