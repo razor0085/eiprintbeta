@@ -48,6 +48,12 @@ public class Parsedata {
           newsize = size;
       }
 
+      //Ausgabe alist und Size vom Byte Array
+       for (int x = 0; x < alist.size(); x += 5) {
+           System.out.println("M1 " +alist.get(x)+" M2 " +alist.get(x+1)+" M3 " +alist.get(x+1)+" Col "+alist.get(x + 3)+" Write "+alist.get(x + 4));
+      }
+      System.out.println(" Size of Byte Array: " +newsize);
+      //Ende Ausgabe
         printArray = new byte[newsize][5];
         int offset = 0;
 
