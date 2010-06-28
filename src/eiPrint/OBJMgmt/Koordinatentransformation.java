@@ -22,7 +22,7 @@ public class Koordinatentransformation
     private static final double WINKEL = -(45.0D);
     // höhe von Nullpos entspricht tz höhe des Stifts(MaschinenNullpunkt) in mm
     private static final double tz = 555.0D;
-    //Stift zu Armachseeffektor 85mm -> 640-85 = 555
+    //Stift zu Armachseeffektor 85mm 
     // ursprünglich 640.0D
     //Ansicht von Vorne Laser auf meiner Seite, 70/2
     private static final double ty = 16.0D; //entspricht ty in mm
@@ -55,7 +55,7 @@ public class Koordinatentransformation
         //yrobot = y + ty;
         yrobot = y-ty;
         zrobot = zrobot-tz;
-        
+     //   System.out.println("zrobot = "+zrobot);
     }
     /**
      * @return the x
