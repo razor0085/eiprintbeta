@@ -173,7 +173,7 @@ public class Objektfile_einlesen extends Util {
     public List<Point> getOrigin() {
 
         List<Point> result = db.query(new Predicate<Point>() {
-        double tol = 15.0;
+        double tol = 20.0;
             public boolean match(Point point) {
                 return (point.getX() < (0 + tol) &&
                         point.getX() > (0 - tol) &&
@@ -252,9 +252,9 @@ public class Objektfile_einlesen extends Util {
         steps.add(stepsMotor3);
         steps.add(color);
         steps.add(write);
-        System.out.println(stepsMotor1);
-        System.out.println(stepsMotor2);
-        System.out.println(stepsMotor3);
+        System.out.println("Step2Ballon x koord "+x+"y koord "+ y+ "z koord "+z);
+        System.out.println("Step2Ballon (=1 Zeile Arraylist) M1 "+stepsMotor1+" M2 "+stepsMotor2 + " M3 "+ stepsMotor3+ " Color "+color+" Write "+write );
+   
     }
     /**
      * Diese Methode erwartet die Koordinaten eines Punktes im Raum und
@@ -269,6 +269,7 @@ public class Objektfile_einlesen extends Util {
         //int write = 1
         //double ubersetzVerh = (22.0/150.0);
         double ubersVerhaltTot = (0.9/(5.4545));
+        System.out.println("x koord "+x+"y koord "+ y+ "z koord "+z);
         //Dpod erwarted floats
         DPOD.x0 = x;
         DPOD.y0 = y;
@@ -278,20 +279,17 @@ public class Objektfile_einlesen extends Util {
         stepsMotor1 =  (int) (((DPOD.theta1) / ubersVerhaltTot) );
         stepsMotor2 =  (int) (((DPOD.theta2) / ubersVerhaltTot) );
         stepsMotor3 =  (int) (((DPOD.theta3) / ubersVerhaltTot) );
-        if(((stepsMotor1<= 50)) && (stepsMotor2<= 50) && (stepsMotor3 <= 50)){
+        if(((Math.abs(oldStepMotor1 - stepsMotor1)<= 50)) && (Math.abs(oldStepMotor2 - stepsMotor2)<= 50) && (Math.abs(oldStepMotor3 - stepsMotor3) <= 50)){
             oldStepMotor1 = oldStepMotor1 - stepsMotor1;
             oldStepMotor2 = oldStepMotor2 - stepsMotor2;
             oldStepMotor3 = oldStepMotor3 - stepsMotor3;
-        }else {}
-
-        steps.add(oldStepMotor1);
-        steps.add(oldStepMotor2);
-        steps.add(oldStepMotor3);
-        steps.add(color);
-        steps.add(write);
-        System.out.println(oldStepMotor1);
-        System.out.println(oldStepMotor2);
-        System.out.println(oldStepMotor3);
+            steps.add(oldStepMotor1);
+            steps.add(oldStepMotor2);
+            steps.add(oldStepMotor3);
+            steps.add(color);
+            steps.add(write);
+            System.out.println("M1 "+oldStepMotor1+" M2 "+oldStepMotor2 + " M3 "+ oldStepMotor3+ " Color "+color+" Write "+write );
+      }else {}
         oldStepMotor1 = stepsMotor1;
         oldStepMotor2 = stepsMotor2;
         oldStepMotor3 = stepsMotor3;
@@ -517,12 +515,12 @@ Objektfile_einlesen o = new Objektfile_einlesen("C:/PREN/asdf.txt","C:/PREN/suje
            o.saveToDb();
             o.sujetEinlesen();
 
-           System.out.println(o.getOrigin().size());
-           System.out.println( o.getOrigin().get(0));
-           System.out.println(o.getOrigin().get(0).getX());
+           System.out.println("Origin Size "+o.getOrigin().size());
+           System.out.println("Origin Get 0 "+ o.getOrigin().get(0));
+           System.out.println("Origin Get X " + o.getOrigin().get(0).getX());
             // o.getSteps(-0.149 ,-9.36, -274.974,1);
             o.generiereDruckdaten(o.getOrigin().get(0).getX(), o.getOrigin().get(0).getY(), o.getOrigin().get(0).getZ());
-            o.printArrayLists();
+           // o.printArrayLists();
         }catch (Exception e){
           e.printStackTrace();
       }
